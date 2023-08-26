@@ -1,0 +1,36 @@
+# bloop and metals
+.bloop
+.metals
+.bsp
+**/project/metals.sbt
+
+# sbt
+**/target
+**/project/project
+
+# swagger code generator
+/bin/swagger_build
+
+# mac
+.DS_Store
+
+*.class
+
+# generated / test files
+**/build/charts/*/test.yaml
+**/build/charts/*/**/charts/*
+**/build/charts/*/requirements.lock
+
+# intellij idea
+*.log
+*.iml
+*.ipr
+*.iws
+.idea
+
+# helm chart
+*.tgz
+
+# flyway
+report.json
+report.html
