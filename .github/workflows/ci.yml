@@ -3,7 +3,8 @@ name: Continuous Integration
 on:
   pull_request:
   push:
-    tags: [v*]
+    branches:
+      - main
 
 # Cancel in-progress jobs when new commits are pushed
 concurrency:
@@ -41,13 +42,22 @@ jobs:
       - name: Build and test project
         run: sbt 'test'
 
-      - name: Run integration test suite
+      # https://github.com/marketplace/actions/github-tag-bump
+      - name: Bump version and push tag
+        if: github.event.pull_request.merged == true
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: patch
+
+      - name: Build docker image, integration test, whatever
         run: sbt 'Docker / publishLocal'
 
   publish:
     name: Publish Artifacts
     needs: [build]
-    if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v'))
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: publish to ECR
