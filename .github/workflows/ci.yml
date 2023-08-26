@@ -56,13 +56,8 @@ jobs:
       - name: Build docker image, integration test, whatever
         run: sbt 'Docker / publishLocal'
 
-  publish:
-    name: Publish Artifacts
-    needs: [build]
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
       - name: publish to ECR
+        if: github.event_name != 'pull_request'
         shell: bash
         run: |
           echo "Placeholder for push to ECR"
