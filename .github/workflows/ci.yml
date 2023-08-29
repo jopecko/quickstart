@@ -75,7 +75,7 @@ jobs:
         run: sbt 'Docker / publishLocal'
 
       - name: publish to ECR
-        if: github.event_name != 'pull_request'
+        #if: github.event_name != 'pull_request'
         shell: bash
         run: |
           echo "Placeholder for push to ECR"
@@ -86,4 +86,5 @@ jobs:
           echo ${{ steps.tag.outputs.part }}
           echo ${{ steps.tag.outputs.tag }}
           echo ${{ steps.tag.outputs.part == 'none' }}
-
+          echo ${{ steps.regex-match.outputs.match }}
+          echo ${{ steps.regex-match.outputs.match != '#none'}}
