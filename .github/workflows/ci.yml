@@ -23,6 +23,23 @@ jobs:
         with:
           fetch-depth: 0
 
+      # https://github.com/actions-ecosystem/action-regex-match
+      - name: Regex test commit message
+        uses: actions-ecosystem/action-regex-match@v2
+        if: github.event_name != 'pull_request'
+        id: regex-match
+        with:
+          text: ${{ github.event.comment.body }}
+          regex: '#(major|minor|patch|none)'
+
+      - name: Validate commit message
+        if: github.event_name != 'pull_request'
+        run: |
+          if [[ -z ${{ steps.regex-match.outputs.match }} ]]; then
+            echo "Commit message must follow the regex: ${{ steps.regex-match.inputs.regex }}"
+            exit 1
+          fi
+
       - name: Setup Java (corretto@17)
         uses: actions/setup-java@v3
         with:
@@ -43,23 +60,6 @@ jobs:
 
       - name: Build and test project
         run: sbt 'test'
-
-      # https://github.com/actions-ecosystem/action-regex-match
-      - name: Regex test commit message
-        uses: actions-ecosystem/action-regex-match@v2
-        if: github.event_name != 'pull_request'
-        id: regex-match
-        with:
-          text: ${{ github.event.comment.body }}
-          regex: '#(major|minor|patch|none)'
-
-      - name: Validate commit message
-        if: github.event_name != 'pull_request'
-        run: |
-          if [[ -z ${{ steps.regex-match.outputs.match }} ; then
-            echo "Commit message must follow the regex: ${{ steps.regex-match.inputs.regex }}"
-            exit 1
-          fi
 
       # https://github.com/marketplace/actions/github-tag-bump
       - name: Bump version and push tag
