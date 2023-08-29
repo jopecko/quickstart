@@ -82,3 +82,4 @@ jobs:
           sbt 'show ThisBuild / version'
           echo [ -z "${{ steps.tag.outputs.new_tag }}" ] && echo "Empty"
           echo ${{ steps.tag.outputs.new_tag }}
+          echo ${{ steps.tag.outputs.new_tag == '' }}
