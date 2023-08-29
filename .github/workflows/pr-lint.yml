@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   lint:
-    runs-on: crunchbase-infra
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: morrisoncole/pr-lint-action@v1.7.0
