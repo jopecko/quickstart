@@ -18,7 +18,7 @@ jobs:
       - uses: morrisoncole/pr-lint-action@v1.7.0
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          title-regex: "#(major|minor|patch|none): .*"
+          title-regex: "(?=.*#(major|minor|patch|none))(?=.*(JO-[0-9]+))"
           on-failed-regex-fail-action: true
           on-failed-regex-create-review: false
           on-failed-regex-request-changes: false
