@@ -30,7 +30,7 @@ jobs:
         id: regex-match
         with:
           text: ${{ github.event.head_commit.message }}
-          regex: '(?=.*#(major|minor|patch|none))'
+          regex: '(?=.*(#(major|minor|patch|none))'
 
       - name: Validate commit message
         if: github.event_name != 'pull_request'
