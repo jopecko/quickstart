@@ -83,3 +83,5 @@ jobs:
           echo [ -z "${{ steps.tag.outputs.new_tag }}" ] && echo "Empty"
           echo ${{ steps.tag.outputs.new_tag }}
           echo ${{ steps.tag.outputs.new_tag == '' }}
+          echo ${{ steps.tag.outputs.part }}
+          echo ${{ steps.tag.outputs.tag }}
