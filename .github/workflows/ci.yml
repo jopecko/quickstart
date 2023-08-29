@@ -87,4 +87,4 @@ jobs:
           echo ${{ steps.tag.outputs.tag }}
           echo ${{ steps.tag.outputs.part == 'none' }}
           echo ${{ steps.regex-match.outputs.match }}
-          echo ${{ steps.regex-match.outputs.match != '#none'}}
+          echo ${{ steps.regex-match.outputs.match == '#none'}}
