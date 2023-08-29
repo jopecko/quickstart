@@ -30,7 +30,7 @@ jobs:
         id: regex-match
         with:
           text: ${{ github.event.head_commit.message }}
-          regex: '#(major|minor|patch|none)'
+          regex: '(?=.*#(major|minor|patch|none))'
 
       - name: Validate commit message
         if: github.event_name != 'pull_request'
@@ -75,7 +75,7 @@ jobs:
         run: sbt 'Docker / publishLocal'
 
       - name: publish to ECR
-        #if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request'
         shell: bash
         run: |
           echo "Placeholder for push to ECR"
