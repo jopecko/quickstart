@@ -69,7 +69,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
-          DEFAULT_BUMP: patch
+          DEFAULT_BUMP: none
 
       - name: Build docker image, integration test, whatever
         run: sbt 'Docker / publishLocal'
@@ -85,3 +85,5 @@ jobs:
           echo ${{ steps.tag.outputs.new_tag == '' }}
           echo ${{ steps.tag.outputs.part }}
           echo ${{ steps.tag.outputs.tag }}
+          echo ${{ steps.tag.outputs.part == 'none' }}
+
