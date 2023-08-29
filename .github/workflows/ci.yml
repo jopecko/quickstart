@@ -35,7 +35,7 @@ jobs:
       - name: Validate commit message
         if: github.event_name != 'pull_request'
         run: |
-          if [ -z ${{ steps.regex-match.outputs.match }} ]; then
+          if [ -z "${{ steps.regex-match.outputs.match }}" ]; then
             echo "Commit message must follow the regex: ${{ steps.regex-match.inputs.regex }}"
             exit 1
           fi
@@ -80,5 +80,6 @@ jobs:
         run: |
           echo "Placeholder for push to ECR"
           sbt 'show ThisBuild / version'
-          echo ${{ steps.tag.outputs.new_tag == '' }}
+          echo [ -z "${{ steps.tag.outputs.new_tag }}" ] && echo "Empty"
           echo ${{ steps.tag.outputs.new_tag }}
+          echo ${{ steps.tag.outputs.new_tag == '' }}
