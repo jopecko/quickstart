@@ -29,7 +29,7 @@ jobs:
         if: github.event_name != 'pull_request'
         id: regex-match
         with:
-          text: ${{ github.event.comment.body }}
+          text: ${{ github.event.head_commit.message }}
           regex: '#(major|minor|patch|none)'
 
       - name: Validate commit message
@@ -63,6 +63,7 @@ jobs:
 
       # https://github.com/marketplace/actions/github-tag-bump
       - name: Bump version and push tag
+        id: tag
         if: github.event_name != 'pull_request'
         uses: anothrNick/github-tag-action@1.64.0
         env:
