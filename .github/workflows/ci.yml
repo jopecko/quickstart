@@ -80,7 +80,7 @@ jobs:
         run: echo "skipping publish"
 
       - name: publish
-        if: github.event_name == 'pull_request' || ${{ steps.regex-match.outputs.match != '#none' }}
+        if: github.event_name == 'pull_request' || ${{ steps.regex-match.outputs.match !== '#none' }}
         shell: bash
         run: |
           echo "Placeholder for push to ECR"
