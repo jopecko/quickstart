@@ -83,7 +83,7 @@ jobs:
         if: github.event_name == 'pull_request' || steps.regex-match.outputs.match != '#none'
         shell: bash
         run: |
-          echo "Placeholder for push to ECR"
+          echo "Publishing to ECR"
           sbt 'show ThisBuild / version'
           echo ${{ steps.tag.outputs.new_tag }}
           echo ${{ steps.tag.outputs.new_tag == '' }}
