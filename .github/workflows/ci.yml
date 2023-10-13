@@ -14,7 +14,7 @@ concurrency:
 jobs:
   code-cov:
     runs-on: ubuntu-latest
-      #if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request'
     steps:
       - run: echo "Some coverage report..."
 
@@ -44,9 +44,9 @@ jobs:
 
     steps:
       - name: Check whether the needed jobs succeeded or failed
-        uses: re-actors/alls-green@release/v1
+        uses: re-actors/alls-green@849fa99e61aeb70b020dfebaae51d2f559753bcc
         with:
-          #allowed-skips: code-cov
+          allowed-skips: code-cov
           jobs: ${{ toJSON(needs) }}
         id: all-greens
       - run: |
@@ -58,7 +58,9 @@ jobs:
     runs-on: ubuntu-latest
 
     needs: ci-pass
-      #if: github.event_name == 'pull_request' && needs.ci-pass.outputs.failure
+    if: always() && github.event_name == 'pull_request' && needs.ci-pass.outputs.result == 'success'
 
     steps:
-      - run: echo "Release the kraken..."
+      - run: |
+          echo "Release the kraken..."
+          echo "${{ needs.ci-pass.outputs.success }}"
