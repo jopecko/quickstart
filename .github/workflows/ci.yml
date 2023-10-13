@@ -40,7 +40,7 @@ jobs:
     outputs:
       failure: ${{ steps.all-greens.outputs.failure }}
       result: ${{ steps.all-greens.outputs.result }}
-      success: ${{ steps.all-greens.outputs.success }} 
+      success: ${{ steps.all-greens.outputs.success }}
 
     steps:
       - name: Check whether the needed jobs succeeded or failed
@@ -49,6 +49,10 @@ jobs:
           allowed-skips: code-cov
           jobs: ${{ toJSON(needs) }}
         id: all-greens
+      - run: |
+          echo "failure: ${{ steps.all-greens.outputs.failure }}"
+          echo "result: ${{ steps.all-greens.outputs.result }}"
+          echo " success: ${{ steps.all-greens.outputs.success }}"
 
   cd:
     runs-on: ubuntu-latest
