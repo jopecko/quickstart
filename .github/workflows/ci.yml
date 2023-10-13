@@ -111,7 +111,7 @@ jobs:
       - name: Check whether the needed jobs succeeded or failed
         uses: re-actors/alls-green@849fa99e61aeb70b020dfebaae51d2f559753bcc
         with:
-          allowed-skips: code-cov
+          #allowed-skips: code-cov
           jobs: ${{ toJSON(needs) }}
 
   cd:
