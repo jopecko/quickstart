@@ -12,6 +12,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  code-cov:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - run: echo "Some coverage report..."
+
   build:
     name: Build and Test
     runs-on: ubuntu-latest
@@ -92,3 +98,18 @@ jobs:
           echo ${{ steps.tag.outputs.part == 'none' }}
           echo ${{ steps.regex-match.outputs.match }}
           echo ${{ steps.regex-match.outputs.match == '#none'}}
+
+  ci-pass:
+    runs-on: ubuntu-latest
+    if: always()
+
+    needs:
+      - code-cov
+      - build
+
+    steps:
+      - name: Check whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@849fa99e61aeb70b020dfebaae51d2f559753bcc
+        with:
+          allowed-skips: code-cov
+          jobs: ${{ toJSON(needs) }}
