@@ -14,7 +14,7 @@ concurrency:
 jobs:
   code-cov:
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
+      #if: github.event_name != 'pull_request'
     steps:
       - run: echo "Some coverage report..."
 
