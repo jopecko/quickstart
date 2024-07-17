@@ -1,11 +1,11 @@
 name: Pull Request Lint
-on:
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - edited
-      - synchronize
+#on:
+#  pull_request:
+#    types:
+#      - opened
+#      - reopened
+#      - edited
+#      - synchronize
 # Cancel in-progress jobs when new commits are pushed
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
