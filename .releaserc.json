@@ -1,10 +1,82 @@
 {
-    "branches": [
-        "main"
-    ],
-    "plugins": [
-        "@semantic-release/commit-analyzer",
-        "@semantic-release/release-notes-generator",
-        "@semantic-release/github"
-    ]
+  "branches": [
+    "main"
+  ],
+  "plugins": [
+    ["@semantic-release/commit-analyzer", {
+       "preset": "angular",
+       "releaseRules": [{
+         "type": "build",
+         "release": false
+       }, {
+         "type": "ci",
+         "release": false
+       }, {
+         "type": "docs",
+         "release": false
+       }, {
+         "type": "feat",
+         "release": "minor"
+       }, {
+         "type": "fix",
+         "release": "patch"
+       }, {
+         "type": "perf",
+         "release": "patch"
+       }, {
+         "type": "refactor",
+         "release": "patch"
+       }, {
+         "type": "test",
+         "release": false
+       }, {
+         "breaking": true,
+         "release": "major"
+       }],
+       "parserOpts": {
+         "noteKeywords": [
+           "BREAKING CHANGE",
+           "BREAKING CHANGES"
+         ]
+       }
+    }],
+    ["@semantic-release/release-notes-generator", {
+      "preset": "angular",
+      "parserOpts": {
+        "noteKeywords": [
+          "BREAKING CHANGE",
+          "BREAKING CHANGES",
+          "BREAKING"
+        ]
+      },
+      "presetConfig": {
+        "types": [{
+          "type": "feat",
+          "section": "Added"
+        }, {
+          "type": "fix",
+          "section": "Fixed"
+        }, {
+          "type": "chore",
+          "hidden": "Changed"
+        }, {
+          "type": "docs",
+          "section": "Changed"
+        }, {
+          "type": "style",
+          "section": "Changed"
+        }, {
+          "type": "refactor",
+          "section": "Changed"
+        }, {
+          "type": "perf",
+          "section": "Changed"
+        }, {
+          "type": "test",
+          "section": "Changed"
+        }]
+      }
+    }],
+    "@semantic-release/github"
+  ]
 }
