@@ -4,17 +4,11 @@
   ],
   "plugins": [
     ["@semantic-release/commit-analyzer", {
-       "preset": "angular",
+      "preset": "angular",
+      "parserOpts": {
+        "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+      },
        "releaseRules": [{
-         "type": "build",
-         "release": false
-       }, {
-         "type": "ci",
-         "release": false
-       }, {
-         "type": "docs",
-         "release": false
-       }, {
          "type": "feat",
          "release": "minor"
        }, {
@@ -27,9 +21,6 @@
          "type": "refactor",
          "release": "patch"
        }, {
-         "type": "test",
-         "release": false
-       }, {
          "breaking": true,
          "release": "major"
        }],
@@ -41,40 +32,43 @@
        }
     }],
     ["@semantic-release/release-notes-generator", {
-      "preset": "angular",
+      "preset": "conventionalcommits",
       "parserOpts": {
-        "noteKeywords": [
-          "BREAKING CHANGE",
-          "BREAKING CHANGES",
-          "BREAKING"
-        ]
+        "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
       },
       "presetConfig": {
         "types": [{
           "type": "feat",
-          "section": "Added"
+          "section": "Features",
+          "hidden": false
         }, {
           "type": "fix",
-          "section": "Fixed"
+          "section": "Bug Fixes",
+          "hidden": false
         }, {
           "type": "chore",
-          "hidden": "Changed"
+          "section": "Miscellaneous Chores",
+          "hidden": false
         }, {
           "type": "docs",
-          "section": "Changed"
-        }, {
-          "type": "style",
-          "section": "Changed"
+          "section": "Miscellaneous Chores",
+          "hidden": false
         }, {
           "type": "refactor",
-          "section": "Changed"
+          "section": "Miscellaneous Chores",
+          "hidden": false
         }, {
           "type": "perf",
-          "section": "Changed"
+          "section": "Performance Improvements",
+          "hidden": false
         }, {
           "type": "test",
-          "section": "Changed"
+          "section": "Miscellaneous Chores",
+          "hidden": false
         }]
+      },
+      "writerOpts": {
+        "commitsSort": ["subject", "scope"]
       }
     }],
     "@semantic-release/github"
