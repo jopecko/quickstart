@@ -22,59 +22,65 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup sbt
-        uses: sbt/setup-sbt@v1
+#      - name: Setup sbt
+#        uses: sbt/setup-sbt@v1
 
-      - name: Setup Java (corretto@17)
-        uses: actions/setup-java@v4
-        with:
-          distribution: corretto
-          java-version: 17
+#      - name: Setup Java (corretto@17)
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: corretto
+#          java-version: 17
 
-      - name: Cache sbt
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.sbt
-            ~/.ivy2/cache
-            ~/.coursier/cache/v1
-            ~/.cache/coursier/v1
-            ~/AppData/Local/Coursier/Cache/v1
-            ~/Library/Caches/Coursier/v1
-          key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
+#      - name: Cache sbt
+#        uses: actions/cache@v3
+#        with:
+#          path: |
+#            ~/.sbt
+#            ~/.ivy2/cache
+#            ~/.coursier/cache/v1
+#            ~/.cache/coursier/v1
+#            ~/AppData/Local/Coursier/Cache/v1
+#            ~/Library/Caches/Coursier/v1
+#          key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
-      - name: Build and test project
-        run: sbt 'test'
+#      - name: Build and test project
+#        run: sbt 'test'
 
       - uses: cycjimmy/semantic-release-action@v4
-        id: semantic-release
+        id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           semantic_version: 24.0.0
-          extra_plugins: |
-            @semantic-release/commit-analyzer
-            @semantic-release/release-notes-generator
-            @semantic-release/github
 
-      - name: Build docker image, integration test, whatever
-        run: sbt 'Docker / publishLocal'
-
-      - name: skip publish
-        if: ${{ steps.semantic-release.outputs.new_release_published }}
-        shell: bash
-        run: echo "skipping publish"
-
-      - name: publish
-        if: ${{ steps.semantic-release.outputs.new_release_published }}
-        shell: bash
+      - name: Do something when a new release published
+        if: steps.semantic.outputs.new_release_published == 'true'
         run: |
-          echo "Publishing..."
-          sbt 'show ThisBuild / version'
-          echo ${{ steps.tag.outputs.new_tag }}
-          echo ${{ steps.tag.outputs.new_tag == '' }}
-          echo ${{ steps.tag.outputs.part }}
-          echo ${{ steps.tag.outputs.tag }}
-          echo ${{ steps.tag.outputs.part == 'none' }}
-          echo ${{ steps.regex-match.outputs.match }}
-          echo ${{ steps.regex-match.outputs.match == '#none'}}
+          echo "${{ steps.semantic.outputs.new_release_notes }}"
+
+#          extra_plugins: |
+#            @semantic-release/commit-analyzer
+#            @semantic-release/release-notes-generator
+#            @semantic-release/github
+
+#      - name: Build docker image, integration test, whatever
+#        run: sbt 'Docker / publishLocal'
+
+#      - name: skip publish
+#        if: ${{ steps.semantic-release.outputs.new_release_published }}
+#        shell: bash
+#        run: echo "skipping publish"
+
+#      - name: publish
+#        if: ${{ steps.semantic-release.outputs.new_release_published }}
+#        shell: bash
+#        run: |
+#          echo "Publishing..."
+#          sbt 'show ThisBuild / version'
+#          echo ${{ steps.tag.outputs.new_tag }}
+#          echo ${{ steps.tag.outputs.new_tag == '' }}
+#          echo ${{ steps.tag.outputs.part }}
+#          echo ${{ steps.tag.outputs.tag }}
+#          echo ${{ steps.tag.outputs.part == 'none' }}
+#          echo ${{ steps.regex-match.outputs.match }}
+#          echo ${{ steps.regex-match.outputs.match == '#none'}}
