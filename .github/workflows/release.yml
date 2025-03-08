@@ -23,7 +23,7 @@ jobs:
       - run: git fetch origin latest
       - run: echo "$(git diff FETCH_HEAD HEAD)"
 
-      - run: sleep 40s
+      - run: sleep 10s
 
       - uses: rickstaa/action-create-tag@v1
         id: tag-create
