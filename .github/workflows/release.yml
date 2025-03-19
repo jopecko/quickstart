@@ -10,6 +10,32 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
+  last-successful-commit:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.last_successful_commit.outputs.result }}
+    steps:
+    - id: workflow-id
+      run: echo "result=$(echo ${{ github.workflow_ref }} | cut -d"/" -f 5 | cut -d"@" -f1)" >> $GITHUB_OUTPUT
+    - uses: actions/github-script@v7
+      id: last_successful_commit
+      with:
+        script: |
+          const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
+          process.stdout.write(`Owner: ${owner} repo: ${repo}`);
+          const res = await github.rest.actions.listWorkflowRuns({
+            owner,
+            repo,
+            workflow_id: "${{ steps.workflow-id.outputs.result }}",
+            status: "success",
+            branch: "main",
+            event: "push",
+          });
+          process.stdout.write("After...");
+          return res.data.workflow_runs.length > 0
+            ? res.data.workflow_runs[0].head_commit.id
+            : "";
+    - run: echo ${{ steps.last_successful_commit.outputs.sha }}
   build:
     name: Release
     runs-on: ubuntu-latest
