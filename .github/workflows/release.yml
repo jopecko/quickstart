@@ -32,11 +32,11 @@ jobs:
             event: "push",
           });
           process.stdout.write("\nAfter...");
-          process.stdout.write(`\n${JSON.stringify(res.data.workflow_runs[0])}`);
+          process.stdout.write(`\n${JSON.stringify(res.data.workflow_runs[0].head_commit.id)}`);
           return res.data.workflow_runs.length > 0
             ? res.data.workflow_runs[0].head_commit.id
             : "";
-    - run: echo ${{ steps.last_successful_commit.outputs.sha }}
+    - run: echo ${{ steps.last_successful_commit.outputs.result }}
   build:
     name: Release
     runs-on: ubuntu-latest
