@@ -1,0 +1,28 @@
+name: release3
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The semver release'
+        required: true
+        type: string
+      dry-run:
+        description: Dry run
+        type: boolean
+  workflow_call:
+    inputs:
+      version:
+        description: 'The semver release'
+        required: true
+        type: string
+      dry-run:
+        description: Dry run
+        type: boolean
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Dry run? (${{ inputs.dry-run }}) for version ${{ inputs.version }}"
+
