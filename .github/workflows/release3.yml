@@ -24,5 +24,15 @@ jobs:
   create:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - run: echo "Dry run? (${{ inputs.dry-run }}) for version ${{ inputs.version }}"
+      - run: |
+          echo $GITHUB_WORKSPACE
+          echo ${{ github.workspace }}
+          ls -la ${GITHUB_WORKSPACE}
+          ls -la ${{ github.workspace }}
+          ls -la ${{ github.workspace }}/.git
+          ls -la ${{ github.workspace }}/.github
 
