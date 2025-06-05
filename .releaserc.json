@@ -1,7 +1,4 @@
 {
-  "branches": [
-    "main"
-  ],
   "plugins": [
     ["@semantic-release/commit-analyzer", {
       "preset": "angular",
@@ -23,13 +20,7 @@
        }, {
          "breaking": true,
          "release": "major"
-       }],
-       "parserOpts": {
-         "noteKeywords": [
-           "BREAKING CHANGE",
-           "BREAKING CHANGES"
-         ]
-       }
+       }]
     }],
     ["@semantic-release/release-notes-generator", {
       "preset": "conventionalcommits",
