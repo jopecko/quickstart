@@ -1,6 +1,7 @@
 {
   "branches": [
-    "main"
+    "main",
+    "release-candidate"
   ],
   "plugins": [
     ["@semantic-release/commit-analyzer", {
@@ -23,13 +24,7 @@
        }, {
          "breaking": true,
          "release": "major"
-       }],
-       "parserOpts": {
-         "noteKeywords": [
-           "BREAKING CHANGE",
-           "BREAKING CHANGES"
-         ]
-       }
+       }]
     }],
     ["@semantic-release/release-notes-generator", {
       "preset": "conventionalcommits",
